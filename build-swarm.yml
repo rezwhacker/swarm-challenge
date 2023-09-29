@@ -1,0 +1,28 @@
+---
+- name: setup pre-requisites
+  hosts: all
+  roles:
+    - install-modules
+    - configure-hosts-file
+
+- name: copy public key to nodes
+  become: yes
+  become_user: ubuntu  #better to use each service from different user
+  hosts: docker-nodes
+  roles:
+    - copy-keys
+
+- name: install docker
+  hosts: docker-nodes
+  roles:
+    - docker-installation
+
+- name: initialize docker swarm
+  hosts: master
+  roles:
+    - docker-swarm-init
+
+- name: add workers to the swarm
+  hosts: workers
+  roles:
+    - docker-swarm-add-worker
