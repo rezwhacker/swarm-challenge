@@ -56,10 +56,10 @@ SSH to the Swarm Manager and List the Nodes:
 
 ```
 $ docker node ls
-ID                            HOSTNAME    STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
-0ead0jshzkpyrw7livudrzq9o *   master-1    Ready               Active              Leader              18.03.1-ce
-iwyp6t3wcjdww0r797kwwkvvy     node-1      Ready               Active                                  18.03.1-ce
-ytcc86ixi0kuuw5mq5xxqamt1     node-2      Ready               Active                                  18.03.1-ce
+ID                            HOSTNAME   STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
+2ewbkjhlcrxs9fdmadoy3gku1 *   master-1   Ready     Active         Leader           24.0.5
+k5kueysxc6gkwaj4x3ghzl72k     node-1     Ready     Active                          24.0.5
+u54wz6it5lygd7z3jmu6hbx49     node-2     Ready     Active                          24.0.5
 ```
 
 Create a Nginx Demo Service:
@@ -69,12 +69,12 @@ $ docker network create --driver overlay appnet
 $ docker service create --name backend --publish 80:80 --network appnet --replicas 2 nginx
 $ docker service ls
 ID                  NAME                MODE                REPLICAS            IMAGE               PORTS
-k3vwvhmiqbfk        nginx               replicated          6/6                 nginx:latest        *:80->80/tcp
+hjbwkirae7jj        backend               replicated          2/2                 nginx:latestc        *:80->80/tcp
 
 $ docker service ps nginx
 ID                  NAME                IMAGE               NODE                DESIRED STATE       CURRENT STATE            ERROR               PORTS                      
-g2f0ytwb2jjg        nginx.2             nginx:latest        node-1      Running             Running 34 seconds ago                       
-clcmew8bcvom        nginx.3             nginx:latest        node-2      Running             Running 34 seconds ago                       
+dfphqv17pjda        backend.1             nginx:latest        node-1      Running             Running 34 seconds ago                       
+dgdm43limraf        backend.2             nginx:latest        node-2      Running             Running 34 seconds ago                       
 ```
 
 Test the Application:
