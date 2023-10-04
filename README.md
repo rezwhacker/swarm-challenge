@@ -63,10 +63,33 @@ u54wz6it5lygd7z3jmu6hbx49     node-2     Ready     Active                       
 ```
 
 Create a Nginx Demo Service:
+```
+$ mkdir nginx-ubuntu-docker
+$ cd nginx-ubuntu-docker
+$ nano Dockerfile
+FROM ubuntu:latest
+RUN apt-get update && \
+    apt-get install -y nginx && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+EXPOSE 80
+
+$ docker build -t nginx-ubuntu .
+$ nano docker-compose.yml
+version: '3'
+
+services:
+  nginx:
+    image: nginx-ubuntu
+    ports:
+      - "80:80"
+    deploy:
+      replicas: 2  
+
 
 ```
-$ docker network create --driver overlay appnet
-$ docker service create --name backend --publish 80:80 --network appnet --replicas 2 nginx
+```
+$ docker stack deploy -c docker-compose.yml nginx-stack
 $ docker service ls
 ID                  NAME                MODE                REPLICAS            IMAGE               PORTS
 hjbwkirae7jj        backend               replicated          2/2                 nginx:latestc        *:80->80/tcp
