@@ -66,26 +66,8 @@ Create a Nginx Demo Service:
 ```
 $ mkdir nginx-ubuntu-docker
 $ cd nginx-ubuntu-docker
-$ nano Dockerfile
-FROM ubuntu:latest
-RUN apt-get update && \
-    apt-get install -y nginx && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-EXPOSE 80
 
 $ docker build -t nginx-ubuntu .
-$ nano docker-compose.yml
-version: '3'
-
-services:
-  nginx:
-    image: nginx-ubuntu
-    ports:
-      - "80:80"
-    deploy:
-      replicas: 2  
-
 
 ```
 ```
