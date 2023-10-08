@@ -2,23 +2,37 @@
 
 
 I do Setup Docker Swarm with Bash
+Steps:
 
+1. give master ip 
+2. give worker ip
+3. check ping them
+4. build docker swarm init
+5. ssh to worker
+6. join them
+7. check node's
+8. build stack from docker-compose
+9. check service
 
-
-
-
-
-SSH to the Swarm Manager and List the Nodes:
+SSH to the Swarm Manager:
 
 ```
-$ cd swarm-challenge
+$ sudo -i
 $ bash nginx-stack.sh
 ```
+give master and worker ip 
 
-and then give master and worker ip to check connectivity and do installing.
-after that if script run success give you a worker jion token and please ssh to worker and use join them,
+and script check connction
+
+if its well you see
+```
+# Ping successful.
+```
+
+after that if script run success ssh to worker's and put join token then
 
 and scripts run docker node ls and if you see somthing like this they have success joined to cluster
+and check node are active:
 ```
 # docker node ls
 ID                            HOSTNAME   STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
@@ -26,30 +40,29 @@ ID                            HOSTNAME   STATUS    AVAILABILITY   MANAGER STATUS
 k5kueysxc6gkwaj4x3ghzl72k     node-1     Ready     Active                          24.0.5
 u54wz6it5lygd7z3jmu6hbx49     node-2     Ready     Active                          24.0.5
 ```
-then press enter:
 
-
-Create a Nginx Demo Service:
-```
-$ mkdir nginx-ubuntu-docker
-$ cd nginx-ubuntu-docker
-
-$ docker build -t nginx-ubuntu .
+Create a Nginx Demo Service then  check service are available:
 
 ```
-```
-$ docker stack deploy -c docker-compose.yml nginx-stack
 $ docker service ls
 ID                  NAME                MODE                REPLICAS            IMAGE               PORTS
 hjbwkirae7jj        backend               replicated          2/2                 nginx:latestc        *:80->80/tcp
 
+ echo "service are available:"
+ echo "nginx-stack"
+```
+ then  check service ps available:
+
+```
 $ docker service ps nginx
 ID                  NAME                IMAGE               NODE                DESIRED STATE       CURRENT STATE            ERROR               PORTS                      
 dfphqv17pjda        backend.1             nginx:latest        node-1      Running             Running 34 seconds ago                       
 dgdm43limraf        backend.2             nginx:latest        node-2      Running             Running 34 seconds ago                       
+ echo "Service 'nginx-stack' has running tasks:"
+ echo "nginx-stack"
 ```
 
-Test the Application:
+Test please test  Application
 
 ```
 $ curl -i http://192.168.1.10
@@ -64,14 +77,4 @@ ETag: "5b167b52-264"
 Accept-Ranges: bytes
 ```
 
-Idont have Time for more than build but 
-
-all of my host's are in Bamdad DC and then i should make a second cluster in another DC and with one router with ip public tunnel two DC network and 
-its good for high availability
-
-we have domain for status monitoring  end user and ngnix and in CDN with round robin we handle request in 3 node public ip
-
-and after that in 4 node in local network swarm handle load balance 
-i believe its better to have reverse proxy or HA,nginx for handle request to backend web server
-and i know its not good my service expose to internet with 3 ip, but in iran its normal to filter random ip or have packet lost without reason
-
+Best Regard
