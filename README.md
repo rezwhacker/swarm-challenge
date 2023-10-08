@@ -1,66 +1,33 @@
 # swarm-challenge-ansible
 
 
-I Think is better to Setup Docker Swarm with Ansible
-because its more fast and advanced for help me to faster than normal way to onboard in sre position
+I do Setup Docker Swarm with Bash
 
 
-SSH Config:
-
-```
-$ cat ~/.ssh/config 
-
-Host master-1
-  Hostname master-1
-  User ubuntu
-  IdentityFile /tmp/key.pem
-  StrictHostKeyChecking no
-  UserKnownHostsFile /dev/null
-
-Host node-1
-  Hostname node-1
-  User ubuntu
-  IdentityFile /tmp/key.pem
-  StrictHostKeyChecking no
-  UserKnownHostsFile /dev/null
-
-Host node-2
-  Hostname node-2
-  User ubuntu
-  IdentityFile /tmp/key.pem
-  StrictHostKeyChecking no
-  UserKnownHostsFile /dev/null
-```
-
-Install Ansible:
-
-```
-$ apt install python-setuptools -y
-$ easy_install pip
-$ pip install ansible
-```
 
 
-## Deploy Docker Swarm
 
-```
-$ ansible-playbook -i inventory.ini -u ubuntu deploy-swarm.yml 
-PLAY RECAP 
-
-master-1           : ok=18   changed=4    unreachable=0    failed=0   
-node-1             : ok=15   changed=1    unreachable=0    failed=0   
-node-2             : ok=15   changed=1    unreachable=0    failed=0   
-```
 
 SSH to the Swarm Manager and List the Nodes:
 
 ```
-$ docker node ls
+$ cd swarm-challenge
+$ bash nginx-stack.sh
+```
+
+and then give master and worker ip to check connectivity and do installing.
+after that if script run success give you a worker jion token and please ssh to worker and use join them,
+
+and scripts run docker node ls and if you see somthing like this they have success joined to cluster
+```
+# docker node ls
 ID                            HOSTNAME   STATUS    AVAILABILITY   MANAGER STATUS   ENGINE VERSION
 2ewbkjhlcrxs9fdmadoy3gku1 *   master-1   Ready     Active         Leader           24.0.5
 k5kueysxc6gkwaj4x3ghzl72k     node-1     Ready     Active                          24.0.5
 u54wz6it5lygd7z3jmu6hbx49     node-2     Ready     Active                          24.0.5
 ```
+then press enter:
+
 
 Create a Nginx Demo Service:
 ```
